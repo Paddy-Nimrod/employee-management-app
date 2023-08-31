@@ -10,10 +10,13 @@ const port = process.env.PORT || 3001;
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
-// app.use(user_routes);
 
-db.sequelize.sync({ alter: true }).then(() => {
-  app.listen(port, () => {
-    console.log(`app running on port: ${port}`);
+app.use(user_routes);
+
+(async () => {
+  await db.sequelize.sync().then(() => {
+    app.listen(port, () => {
+      console.log(`app running on port: ${port}`);
+    });
   });
-});
+})();
