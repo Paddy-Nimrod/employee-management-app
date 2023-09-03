@@ -19,15 +19,16 @@ exports.createStaff = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  Staff.findAll({ where: { email: email } }).then((user) => {
+  Staff.findOne({ where: { email: email } }).then((user) => {
     if (user) {
       res.send({ message: "account with that email already exists" });
+    } else {
+      (async () => {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hashedPass = bcrypt.hash(password, salt);
+        await Staff.create({ email: email, password: hashedPass });
+        res.status(200).send({ message: "Staff added successfully" });
+      })();
     }
-    (async () => {
-      const salt = await bcrypt.genSalt(saltRounds);
-      const hashedPass = bcrypt.hash(password, salt);
-      await Staff.create({ email: email, password: hashedPass });
-      res.status(200).send({ message: "Staff added successfully" });
-    })();
   });
 };
