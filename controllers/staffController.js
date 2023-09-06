@@ -24,13 +24,10 @@ exports.get_all_members = (req, res) => {
 
 //create staff method
 exports.create_new_staff = (req, res, next) => {
-  console.log("add member controller called");
   const email = req.body.email;
   const password = req.body.password;
 
-  console.log(email + password);
-
-  Staff.findOne({ where: { email: req.body.email } }).then((staff) => {
+  Staff.findOne({ where: { email: email } }).then((staff) => {
     if (staff) {
       res.send({ message: "account with that email already exists" });
     } else {
@@ -46,5 +43,35 @@ exports.create_new_staff = (req, res, next) => {
 
 // Add new member
 exports.add_new_member = (req, res) => {
-  res.json({ message: "okay" });
+  const isActive = false;
+
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
+  const phoneNumber = req.body.phoneNumber;
+  const gender = req.body.gender;
+  const userType = req.body.userType;
+  const status = isActive;
+
+  (async () => {
+    Member.findOne({
+      where: {
+        email: email,
+      },
+    }).then(async (member) => {
+      if (member) {
+        res.json({ message: "A Member with that email already exists" });
+      }
+      await Member.create({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        gender: gender,
+        userType: userType,
+        status: status,
+      });
+      res.status(200).json({ message: "member added successfully" });
+    });
+  })();
 };
