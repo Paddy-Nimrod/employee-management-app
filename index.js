@@ -11,6 +11,8 @@ const port = process.env.PORT || 3001;
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
+app.use(express.json());
+
 app.use(user_routes);
 
 (async () => {
