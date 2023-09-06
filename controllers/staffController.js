@@ -18,23 +18,33 @@ exports.get_all_members = (req, res) => {
     });
 };
 
+// exports.create_new_staff = (req, res) => {
+//   res.json({ message: "New staff added" });
+// };
+
 //create staff method
-exports.create_staff = (req, res, next) => {
+exports.create_new_staff = (req, res, next) => {
   console.log("add member controller called");
   const email = req.body.email;
   const password = req.body.password;
 
-  Staff.findOne({ where: { email: email } }).then((user) => {
-    if (user) {
+  console.log(email + password);
+
+  Staff.findOne({ where: { email: req.body.email } }).then((staff) => {
+    if (staff) {
       res.send({ message: "account with that email already exists" });
     } else {
       (async () => {
         const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPass = bcrypt.hash(password, salt);
-        console.log(email + hashedPass);
+        const hashedPass = await bcrypt.hash(password, salt);
         await Staff.create({ email: email, password: hashedPass });
         res.status(200).send({ message: "Staff added successfully" });
       })();
     }
   });
+};
+
+// Add new member
+exports.add_new_member = (req, res) => {
+  res.json({ message: "okay" });
 };
