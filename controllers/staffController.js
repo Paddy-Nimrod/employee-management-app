@@ -18,10 +18,6 @@ exports.get_all_members = (req, res) => {
     });
 };
 
-// exports.create_new_staff = (req, res) => {
-//   res.json({ message: "New staff added" });
-// };
-
 //create staff method
 exports.create_new_staff = (req, res, next) => {
   const email = req.body.email;
