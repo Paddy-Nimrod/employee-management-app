@@ -9,7 +9,7 @@ const saltRounds = 10;
 
 //get all members method
 exports.get_all_members = (req, res) => {
-  Member.findAll()
+  Member.findAll({ include: Staff })
     .then((members) => {
       res.status(200).json(members);
     })
@@ -39,6 +39,7 @@ exports.create_new_staff = (req, res, next) => {
 
 // Add new member
 exports.add_new_member = (req, res) => {
+  const staff = Staff.findByPk(1);
   const isActive = false;
 
   const firstName = req.body.firstName;
@@ -66,8 +67,15 @@ exports.add_new_member = (req, res) => {
         gender: gender,
         userType: userType,
         status: status,
+        StaffId: staff.id,
       });
       res.status(200).json({ message: "member added successfully" });
     });
   })();
+};
+
+exports.get_all_staff = () => {
+  // Staff.findAll({ include: Member }).then((staff) => {
+  //   res.status(200).send(staff);
+  // });
 };

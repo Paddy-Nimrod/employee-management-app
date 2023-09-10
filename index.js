@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(user_routes);
 
 (async () => {
-  await db.sequelize.sync().then(() => {
+  await db.sequelize.sync({ force: true }).then(() => {
     app.listen(port, () => {
       console.log(`app running on port: ${port}`);
     });

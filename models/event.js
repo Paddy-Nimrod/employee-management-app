@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Event.belongsTo(models.Member);
+      Event.belongsToMany(models.Member, { through: "member_events" });
       Event.belongsTo(models.Payment);
     }
   }
