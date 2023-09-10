@@ -3,7 +3,8 @@ const bodyparser = require("body-parser");
 
 const db = require("./models/index");
 
-const user_routes = require("./routes/users.routes");
+const staff_routes = require("./routes/staff.routes");
+const member_routes = require("./routes/member.routes");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -13,10 +14,11 @@ app.use(bodyparser.json());
 
 app.use(express.json());
 
-app.use(user_routes);
+app.use(staff_routes);
+app.use(member_routes);
 
 (async () => {
-  await db.sequelize.sync({ force: true }).then(() => {
+  await db.sequelize.sync().then(() => {
     app.listen(port, () => {
       console.log(`app running on port: ${port}`);
     });
