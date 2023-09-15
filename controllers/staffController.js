@@ -27,4 +27,7 @@ exports.create_new_staff = (req, res, next) => {
 };
 
 //login staff method
-exports.login_staff = (req, res) => {};
+exports.login_staff = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+};
