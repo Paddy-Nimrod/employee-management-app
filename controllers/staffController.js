@@ -30,4 +30,9 @@ exports.create_new_staff = (req, res, next) => {
 exports.login_staff = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  Staff.findOne({ where: { email: email } }).then((staff) => {
+    if (staff) {
+    }
+  });
 };
